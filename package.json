@@ -22,7 +22,7 @@
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://tp6u40-cya.github.io/Web_fronted",
+  "homepage": "https://tp6u40-cya.github.io/Web_fronted/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
