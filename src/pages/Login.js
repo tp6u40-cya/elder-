@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { BaseContainer, BaseTextField, BaseButton, BaseBox } from '../styles/globalStyles';
-
+import { useNavigate } from 'react-router-dom';  // 添加這行
+// 添加 Alert 相關組件導入
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert } from '@mui/material';
 // Logo 組件
 const Logo = () => (
   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
@@ -17,7 +19,19 @@ const Logo = () => (
     </Typography>
   </Box>
 );
+// ... 其他樣式組件 ...
 
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    backgroundColor: '#1a1f25',
+    color: '#fff',
+    borderRadius: '1.5em',
+    border: '.15em solid var(--primary)',
+    backdropFilter: 'blur(4px)',
+    boxShadow: 'inset 1px 1px 6px rgba(255,255,255,0.3), 2px 2px 15px rgba(0,0,0,0.5)',
+    padding: theme.spacing(2)
+  }
+}));
 // 自定義樣式組件
 const StyledContainer = styled(Container)(({ theme }) => ({
   minHeight: '100vh',
@@ -175,11 +189,50 @@ const FormContainer = styled(Box)(({ theme }) => ({
 }));
 
 // 在 Login 組件中使用
+// 添加測試用戶數據
+const TEST_USER = {
+  ldapAccount: "410012409",
+  password: "123456"
+};
+
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     ldapAccount: '',
     password: '',
   });
+  const [openDialog, setOpenDialog] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleLogin = (isAccessible) => {
+    // 首先驗證帳號密碼
+    if (formData.ldapAccount === TEST_USER.ldapAccount && 
+        formData.password === TEST_USER.password) {
+      if (isAccessible) {
+        // 無障礙版本登入
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('userAccount', formData.ldapAccount);
+        navigate('/instruments');
+      } else {
+        // 一般版本登入，顯示確認對話框
+        const confirmLogin = window.confirm('確定登入一般版本，若您為視障生請選擇「登入無障礙版」？');
+        if (confirmLogin) {
+          sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('userAccount', formData.ldapAccount);
+          navigate('/instruments');
+        }
+      }
+    } else {
+      alert('帳號或密碼錯誤');
+    }
+  };
+
+  const handleConfirm = () => {
+    sessionStorage.setItem('isLoggedIn', 'true');
+    sessionStorage.setItem('userAccount', formData.ldapAccount);
+    setOpenDialog(false);
+    navigate('/dashboard');
+  };
 
   return (
     <BackgroundAnimation>
@@ -245,18 +298,61 @@ const Login = () => {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
               </Box>
-              
               <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                <LoginButton fullWidth type="submit">
+                <LoginButton 
+                  fullWidth 
+                  onClick={() => handleLogin(false)}
+                >
                   登入系統
                   <span className="dot"></span>
                 </LoginButton>
-                <LoginButton fullWidth className="outlined">
+                <LoginButton 
+                  fullWidth 
+                  className="outlined"
+                  onClick={() => handleLogin(true)}
+                >
                   登入無障礙版
                   <span className="dot"></span>
                 </LoginButton>
               </Box>
-              
+                    {/* 添加對話框 */}
+                  <StyledDialog
+                    open={openDialog}
+                    onClose={() => setOpenDialog(false)}
+                  >
+                    <DialogTitle sx={{ 
+                      textAlign: 'center',
+                      fontSize: '20px',
+                      fontWeight: 'bold',
+                      pb: 1
+                    }}>
+                      確定登入一般版本
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText sx={{ 
+                        color: 'rgba(255,255,255,0.7)',
+                        textAlign: 'center'
+                      }}>
+                        確定登入一般版本，若您為視障生請選擇「登入無障礙版」？
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions sx={{ 
+                      justifyContent: 'center',
+                      gap: 2,
+                      pb: 3,
+                      pt: 2
+                    }}>
+                      <LoginButton onClick={handleConfirm}>
+                        確定
+                      </LoginButton>
+                      <LoginButton 
+                        className="outlined"
+                        onClick={() => setOpenDialog(false)}
+                      >
+                        取消
+                      </LoginButton>
+                    </DialogActions>
+                  </StyledDialog>
               <Box sx={{ 
                 display: 'flex', 
                 justifyContent: 'center',
