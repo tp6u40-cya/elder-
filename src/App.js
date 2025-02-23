@@ -30,9 +30,9 @@ function App() {
       <Box sx={GlobalStyles.root}>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/instruments" element={<InstrumentList />} />  {/* 主要路徑 */}
+            <Route path="/instruments" element={<InstrumentList />} />
             <Route path="/instruments/:id" element={<InstrumentDetail />} />
           </Routes>
         </Router>
