@@ -22,11 +22,14 @@
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://tp6u40-cya.github.io/Web_fronted",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "gh-pages": "^6.3.0"
   }
 }
