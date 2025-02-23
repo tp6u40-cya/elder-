@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Box } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { GlobalStyles } from './styles/globalStyles';
@@ -23,6 +23,7 @@ const darkTheme = createTheme({
   },
 });
 
+
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
@@ -30,7 +31,7 @@ function App() {
       <Box sx={GlobalStyles.root}>
         <Router>
           <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/instruments" element={<InstrumentList />} />
             <Route path="/instruments/:id" element={<InstrumentDetail />} />
