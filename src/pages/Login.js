@@ -201,37 +201,53 @@ const Login = () => {
     ldapAccount: '',
     password: '',
   });
+  
   const [openDialog, setOpenDialog] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 防止頁面刷新
+  
 
+  };
+  
   const handleLogin = (isAccessible) => {
-    // 首先驗證帳號密碼
-    if (formData.ldapAccount === TEST_USER.ldapAccount && 
-        formData.password === TEST_USER.password) {
+    const { ldapAccount, password } = formData;
+    
+    if (!ldapAccount || !password) {
+      alert("請輸入帳號和密碼");
+      return;
+    }
+    
+    if (ldapAccount === TEST_USER.ldapAccount && password === TEST_USER.password) {
       if (isAccessible) {
-        // 無障礙版本登入
         sessionStorage.setItem('isLoggedIn', 'true');
-        sessionStorage.setItem('userAccount', formData.ldapAccount);
+        sessionStorage.setItem('userAccount', ldapAccount);
         navigate('/instruments');
       } else {
-        // 一般版本登入，顯示確認對話框
         const confirmLogin = window.confirm('確定登入一般版本，若您為視障生請選擇「登入無障礙版」？');
         if (confirmLogin) {
           sessionStorage.setItem('isLoggedIn', 'true');
-          sessionStorage.setItem('userAccount', formData.ldapAccount);
+          sessionStorage.setItem('userAccount', ldapAccount);
           navigate('/instruments');
         }
       }
     } else {
-      alert('帳號或密碼錯誤');
+      alert("帳號或密碼錯誤");
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin(false); // 按 Enter 鍵等同於點擊「登入系統」
+    }
+  };
+
 
   const handleConfirm = () => {
     sessionStorage.setItem('isLoggedIn', 'true');
     sessionStorage.setItem('userAccount', formData.ldapAccount);
     setOpenDialog(false);
-    navigate('/dashboard');
+    navigate('/instruments');
   };
 
   return (
@@ -277,7 +293,8 @@ const Login = () => {
               請於方框中輸入 LDAP 帳號、密碼登入
             </Typography>
 
-            <form>
+            <form onSubmit={handleSubmit}>
+              
               <Box sx={{ mb: 3 }}>
                 <Typography sx={{ mb: 1 }}>帳號</Typography>
                 <LoginTextField 
@@ -300,8 +317,9 @@ const Login = () => {
               </Box>
               <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                 <LoginButton 
-                  fullWidth 
+                  fullWidth type="submit"
                   onClick={() => handleLogin(false)}
+                  
                 >
                   登入系統
                   <span className="dot"></span>
