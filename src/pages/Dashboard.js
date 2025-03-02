@@ -116,7 +116,7 @@ const BackgroundCircles = styled(Box)(({ theme }) => ({
       height: '100px',
       background: '#E6C786',  // 修改顏色
       right: '-10px',
-      top: '80px',
+      top: '20px',
       animation: 'am2 ease-out 1s 0.2s forwards, float 4s ease-in-out infinite alternate-reverse'
     },
     '&:nth-of-type(3)': {  // 灰藍色圓圈
@@ -124,7 +124,7 @@ const BackgroundCircles = styled(Box)(({ theme }) => ({
       height: '220px',
       background: '#97A5C0',  // 修改顏色
       right: '-100px',
-      bottom: '50px',
+      bottom: '20px',
       animation: 'am2 ease-out 1s 0.4s forwards, float 3.5s ease-in-out infinite alternate'
     }
   },
@@ -181,11 +181,8 @@ const FormContainer = styled(Box)(({ theme }) => ({
   backdropFilter: 'blur(4px)',
   boxShadow: 'inset 1px 1px 6px rgba(255, 255, 255, 0.3), 2px 2px 15px rgba(0, 0, 0, 0.5)',
   marginBottom: theme.spacing(3),
-  zIndex: 1,
-  animation: 'am3 ease-out 1s 0.2s backwards',
-  '& form': {
-    marginTop: theme.spacing(4)
-  }
+  zIndex: 10000,
+  animation: 'am3 ease-out 1s 0.2s backwards'
 }));
 
 // 在 Login 組件中使用
@@ -197,6 +194,10 @@ const TEST_USER = {
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const handleButtonClick = (path) => {
+    navigate(path);
+  };
   const [formData, setFormData] = useState({
     ldapAccount: '',
     password: '',
@@ -209,7 +210,136 @@ const Login = () => {
   
 
   };
-  
+  // ... existing code ...
+
+  const FloatingCircles = styled(Box)(({ theme }) => ({
+    position: 'absolute',  // 改為 absolute
+    width: '1920px',      // 設定固定寬度
+    height: '1080px',     // 設定固定高度
+    left: '50%',          // 水平置中
+    top: '50%',           // 垂直置中
+    transform: 'translate(-50%, -50%)',  // 確保完全置中
+    zIndex: 9999,
+    '@keyframes float': {
+    '0%': { transform: 'translateY(0)' },
+    '100%': { transform: 'translateY(-20px)' }
+  },
+  '@keyframes am2': {
+    '0%': { 
+      transform: 'scale(0) rotateZ(60deg)',
+      opacity: 0
+    },
+    '100%': { 
+      transform: 'scale(1) rotateZ(0)',
+      opacity: 0.7
+    }
+  },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& button': {
+    position: 'relative',
+    background: 'rgba(0, 0, 0, 0.01)',
+    border: '2px solid rgba(141, 140, 140, 0.62)',
+    borderRadius: '15px',
+    color: '#000000',
+    fontSize: '24px',
+    fontWeight: '500',
+    padding: '15px 25px',
+    cursor: 'pointer',
+    backdropFilter: 'blur(8px)',
+    transition: 'all 0.3s ease',
+    boxShadow: 'inset 1px 1px 6px rgba(255,255,255,0.2)',
+    zIndex: 1,
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+      color: '#333'
+    },
+    '&:active': {
+      transform: 'translateY(1px)',
+      boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+    },
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      background: 'rgba(200, 200, 200, 0.5)',
+      borderRadius: '50%',
+      bottom: '8px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      opacity: 0,
+      transition: 'all 0.3s ease'
+    },
+    '&:hover::after': {
+      opacity: 1,
+      transform: 'translateX(-50%) scale(1.5)'
+    }
+  },
+    '& span': {
+      position: 'absolute',
+      borderRadius: '50%',
+      opacity: 0,
+      display: 'flex',        
+      justifyContent: 'center', // 水平置中
+      alignItems: 'center',    
+      '&:nth-of-type(1)': { //左上角
+        width: '300px',
+        height: '300px',
+        background: '#EFD3AC',
+        left: '300px',
+        top: '150px',
+        animation: 'am2 ease-out 1s forwards, float 4s ease-in-out infinite alternate'
+      },
+      '&:nth-of-type(2)': { //左中
+        width: '280px',
+        height: '280px',
+        background: '#DCDDDF',
+        left: '100px',
+        top: '430px',
+        animation: 'am2 ease-out 1s 0.2s forwards, float 3.5s ease-in-out infinite alternate-reverse'
+      },
+      '&:nth-of-type(3)': {//左下
+        width: '350px',
+        height: '350px',
+        background: '#8D6A6E',
+        left: '400px',
+        bottom: '100px',
+        animation: 'am2 ease-out 1s 0.4s forwards, float 5s ease-in-out infinite alternate'
+      },
+      '&:nth-of-type(4)': { //右上角
+        width: '280px',
+        height: '280px',
+        background: '#DEA592',
+        right: '280px',
+        top: '120px',
+        animation: 'am2 ease-out 1s 0.3s forwards, float 4.5s ease-in-out infinite alternate-reverse'
+      },
+      '&:nth-of-type(5)': {//右中
+        width: '300px',
+        height: '300px',
+        background: '#ADAAA5',
+        right: '100px',
+        top: '370px',
+        animation: 'am2 ease-out 1s 0.5s forwards, float 3.8s ease-in-out infinite alternate'
+      },
+      '&:nth-of-type(6)': { //右下角
+        width: '300px',
+        height: '300px',
+        background: '#E2C6C4',
+        right: '180px',
+        bottom: '100px',
+        animation: 'am2 ease-out 1s 0.6s forwards, float 4.2s ease-in-out infinite alternate-reverse'
+      }
+    }
+    
+  }));
+ 
+
+
   const handleLogin = (isAccessible) => {
     const { ldapAccount, password } = formData;
     
@@ -241,7 +371,48 @@ const Login = () => {
       handleLogin(false); // 按 Enter 鍵等同於點擊「登入系統」
     }
   };
+  const StyledButton = styled(BaseButton)(({ theme }) => ({
+    height: '48px',
+    padding: '12px',
+    cursor: 'pointer',
+    position: 'relative',
+    transition: 'all 0.3s ease',
+    zIndex: 2,
+    '&.outlined': {
+      backgroundColor: 'transparent',
+      border: '2px solid var(--primary)',
+      '&:hover': {
+        backgroundColor: 'rgba(120, 255, 205, 0.1)',
+        transform: 'translateY(-2px)'
+      }
+    },
+    '&:hover': {
+      backgroundColor: 'rgba(120, 255, 205, 0.2)',
+      transform: 'translateY(-2px)'
+    },
+    '&:active': {
+      transform: 'translateY(1px)'
+    }
+  }));
 
+  // 在 return 部分修改按鈕的使用方式
+  <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+    <StyledButton 
+      fullWidth 
+      onClick={() => handleLogin(false)}
+    >
+      一般版本
+      <span className="dot"></span>
+    </StyledButton>
+    <StyledButton 
+      fullWidth 
+      className="outlined"
+      onClick={() => handleLogin(true)}
+    >
+      無障礙版
+      <span className="dot"></span>
+    </StyledButton>
+  </Box>
 
   const handleConfirm = () => {
     sessionStorage.setItem('isLoggedIn', 'true');
@@ -252,6 +423,26 @@ const Login = () => {
 
   return (
     <BackgroundAnimation>
+      <FloatingCircles>
+        <span>
+          <button onClick={() => handleButtonClick('/elderly-support')}>老人助養</button>
+        </span>
+        <span>
+          <button onClick={() => handleButtonClick('/elderly-protection')}>老人防護</button>
+        </span>
+        <span>
+          <button onClick={() => handleButtonClick('/elderly-search')}>老人協尋</button>
+        </span>
+        <span>
+          <button onClick={() => handleButtonClick('/elderly-rescue')}>老人救援</button>
+        </span>
+        <span>
+          <button onClick={() => handleButtonClick('/elderly-service')}>老人服務</button>
+        </span>
+        <span>
+          <button onClick={() => handleButtonClick('/volunteer')}>社會志工</button>
+        </span>
+      </FloatingCircles>
       <LoginContainer>
         <LoginBox>
           <BackgroundCircles className="bg">
@@ -260,20 +451,17 @@ const Login = () => {
             <span></span>
           </BackgroundCircles>
           
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            mb: 2 
-          }}>
-            <Button 
-              sx={{ 
-                color: 'var(--primary)',
-                fontSize: '0.9em'
-              }}
-            >
-              中文 | ENGLISH
-            </Button>
-          </Box>
+         
+    <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'flex-end', 
+        mb: 2,
+        position: 'relative',
+        zIndex: 100001
+}}>
+     
+        </Box>
+
 
           <FormContainer>
             <Typography variant="h4" sx={{ 
@@ -282,7 +470,7 @@ const Login = () => {
               mb: 3,
               textAlign: 'center'
             }}>
-              輔仁大學貴重儀器預約系統
+              台北市老人基金會
             </Typography>
             
             <Typography sx={{ 
@@ -290,115 +478,57 @@ const Login = () => {
               textAlign: 'center',
               color: 'rgba(255,255,255,0.7)'
             }}>
-              請於方框中輸入 LDAP 帳號、密碼登入
+              關懷長者 溫暖社會
             </Typography>
 
-            <form onSubmit={handleSubmit}>
-              
-              <Box sx={{ mb: 3 }}>
-                <Typography sx={{ mb: 1 }}>帳號</Typography>
-                <LoginTextField 
-                  fullWidth 
-                  placeholder="請輸入 LDAP 帳號"
-                  value={formData.ldapAccount}
-                  onChange={(e) => setFormData({ ...formData, ldapAccount: e.target.value })}
-                />
-              </Box>
-              
-              <Box sx={{ mb: 3 }}>
-                <Typography sx={{ mb: 1 }}>密碼</Typography>
-                <LoginTextField 
-                  fullWidth 
-                  type="password"
-                  placeholder="請輸入密碼"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                <LoginButton 
-                  fullWidth type="submit"
-                  onClick={() => handleLogin(false)}
-                  
-                >
-                  登入系統
-                  <span className="dot"></span>
-                </LoginButton>
-                <LoginButton 
-                  fullWidth 
-                  className="outlined"
-                  onClick={() => handleLogin(true)}
-                >
-                  登入無障礙版
-                  <span className="dot"></span>
-                </LoginButton>
-              </Box>
-                    {/* 添加對話框 */}
-                  <StyledDialog
-                    open={openDialog}
-                    onClose={() => setOpenDialog(false)}
-                  >
-                    <DialogTitle sx={{ 
-                      textAlign: 'center',
-                      fontSize: '20px',
-                      fontWeight: 'bold',
-                      pb: 1
-                    }}>
-                      確定登入一般版本
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText sx={{ 
-                        color: 'rgba(255,255,255,0.7)',
-                        textAlign: 'center'
-                      }}>
-                        確定登入一般版本，若您為視障生請選擇「登入無障礙版」？
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions sx={{ 
-                      justifyContent: 'center',
-                      gap: 2,
-                      pb: 3,
-                      pt: 2
-                    }}>
-                      <LoginButton onClick={handleConfirm}>
-                        確定
-                      </LoginButton>
-                      <LoginButton 
-                        className="outlined"
-                        onClick={() => setOpenDialog(false)}
-                      >
-                        取消
-                      </LoginButton>
-                    </DialogActions>
-                  </StyledDialog>
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'center',
-                gap: 2 
-              }}>
-                <Button 
-                  color="primary" 
-                  sx={{ 
-                    textDecoration: 'underline',
-                    color: 'var(--primary)'
-                  }}
-                >
-                  忘記密碼？
-                </Button>
-                <Button 
-                  color="primary"
-                  sx={{ 
-                    textDecoration: 'underline',
-                    color: 'var(--primary)'
-                  }}
-                >
-                  操作手冊
-                </Button>
-              </Box>
-            </form>
+            <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+              <StyledButton 
+                fullWidth
+                onClick={() => handleButtonClick('/about')}
+              >
+               關於本會
+                <span className="dot"></span>
+              </StyledButton>
+              <StyledButton 
+                fullWidth 
+                className="outlined"
+                onClick={() => handleButtonClick('/donation')}
+              >
+                社會捐款
+                <span className="dot"></span>
+              </StyledButton>
+            </Box>
+
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'center',
+              gap: 2 
+            }}>
+              <Button 
+                color="primary" 
+                onClick={() => handleButtonClick('/contact')}
+                sx={{ 
+                  textDecoration: 'underline',
+                  color: 'var(--primary)'
+                }}
+              >
+                聯絡本會
+              </Button>
+              <Button 
+                color="primary"
+                onClick={() => window.open(`${process.env.PUBLIC_URL}/documents/financial_statements.pdf`, '_blank')}
+                sx={{ 
+                  textDecoration: 'underline',
+                  color: 'var(--primary)'
+                }}
+              >
+                財務報表
+              </Button>
+            </Box>
           </FormContainer>
         </LoginBox>
       </LoginContainer>
+      {/* ... 其他原有內容 ... */}
     </BackgroundAnimation>
   );
 };

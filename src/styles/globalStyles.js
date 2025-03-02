@@ -80,27 +80,27 @@ export const BaseContainer = styled(Container)(({ theme }) => ({
 
 // 添加滾動容器（用於其他需要滾動條的頁面）
 export const ScrollContainer = styled(Box)(({ theme }) => ({
-  position: 'absolute', // 確保它覆蓋整個畫面
+  position: 'absolute',
   top: 0,
   left: 0,
   width: '100vw',
-  height: '100vh', // 改成 100vh 來覆蓋整個畫面
-  backgroundColor: '#111418',
+  height: '100vh',
+  backgroundColor: '#1a1f25',
   color: '#fff',
-  overflowY: 'auto', // 改成 auto，讓它只有在需要時才顯示滾動條
+  overflowY: 'auto',
   '&::-webkit-scrollbar': {
-    width: '8px',
+    width: '10px'
   },
   '&::-webkit-scrollbar-track': {
-    background: '#1a1f25',
+    background: '#1a1f25'
   },
   '&::-webkit-scrollbar-thumb': {
-    background: '#3C465C',
+    background: '#333',
     borderRadius: '4px',
     '&:hover': {
-      background: '#4a5568',
-    },
-  },
+      background: '#555'
+    }
+  }
 }));
 
 // Add BaseBox export

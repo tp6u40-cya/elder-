@@ -82,9 +82,9 @@ const Home = () => {
     const timer = setTimeout(() => {
       setIsLeaving(true);
       setTimeout(() => {
-        navigate('/login');
+        navigate('/dashboard'); // 將 /login 改為 /dashboard
       }, 1200);
-    }, 1800);// 改為 18縮短為 3 秒
+    }, 1800);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -112,7 +112,7 @@ const Home = () => {
             textShadow: '0 0 10px rgba(255,255,255,0.3)'
           }}
         >
-          輔仁大學
+          台北市老人基金會
         </Typography>
         <Typography 
           variant="h4" 
@@ -121,7 +121,7 @@ const Home = () => {
             textShadow: '0 0 8px rgba(255,255,255,0.2)'
           }}
         >
-          貴重儀器預約系統
+          關懷長者 溫暖社會
         </Typography>
       </AnimatedContent>
 
