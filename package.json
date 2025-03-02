@@ -1,7 +1,8 @@
 {
-  "name": "my-app",
+  "name": "instrument-reservation",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://tp6u40-cya.github.io/elder-/",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -25,7 +26,6 @@
     "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://tp6u40-cya.github.io/Web_fronted/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
