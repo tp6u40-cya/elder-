@@ -3,53 +3,7 @@ import { Box, Container, Typography, TextField, Button, Select, MenuItem, FormCo
 import { styled } from '@mui/material/styles';
 import { BaseContainer, BaseTextField, BaseButton, BaseBox } from '../styles/globalStyles';
 import { useNavigate } from 'react-router-dom';  // 添加這行
-// 添加 Alert 相關組件導入
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert } from '@mui/material';
-// Logo 組件
-const Logo = () => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-    <svg viewBox="0 0 48 48" fill="none" width="16" height="16">
-      <path
-        d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"
-        fill="currentColor"
-      />
-    </svg>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
-      輔仁大學
-    </Typography>
-  </Box>
-);
-// ... 其他樣式組件 ...
 
-const StyledDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    backgroundColor: '#1a1f25',
-    color: '#fff',
-    borderRadius: '1.5em',
-    border: '.15em solid var(--primary)',
-    backdropFilter: 'blur(4px)',
-    boxShadow: 'inset 1px 1px 6px rgba(255,255,255,0.3), 2px 2px 15px rgba(0,0,0,0.5)',
-    padding: theme.spacing(2)
-  }
-}));
-// 自定義樣式組件
-const StyledContainer = styled(Container)(({ theme }) => ({
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: '#111418',
-  color: '#fff',
-  padding: theme.spacing(4)
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  maxWidth: '512px',
-  margin: '0 auto',
-  padding: theme.spacing(3),
-}));
-// Add this with other styled components
-// 修改 LoginBox 組件
 const LoginBox = styled(BaseBox)(({ theme }) => ({
   maxWidth: '512px',
   margin: '0 auto',
@@ -65,34 +19,8 @@ const LoginContainer = styled(BaseContainer)(({ theme }) => ({
   minHeight: '100vh'     // 添加這行
 }));
 
-const LoginTextField = styled(BaseTextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    height: '56px',
-    backgroundColor: '#293038',
-    borderRadius: '12px',
-    color: '#fff',
-    '& fieldset': {
-      border: 'none',
-    },
-    '&:hover fieldset': {
-      border: 'none',
-    },
-    '&.Mui-focused fieldset': {
-      border: 'none',
-    }
-  }
-}));
 
-const LoginButton = styled(BaseButton)(({ theme }) => ({
-  height: '48px',
-  padding: '12px',
-  '&.outlined': {
-    backgroundColor: 'transparent',
-    '&:hover': {
-      backgroundColor: 'rgba(120, 255, 205, 0.1)'
-    }
-  }
-}));
+
 // 修改 BackgroundCircles 組件
 const BackgroundCircles = styled(Box)(({ theme }) => ({
   position: 'absolute',  // 改回 absolute
@@ -187,10 +115,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
 
 // 在 Login 組件中使用
 // 添加測試用戶數據
-const TEST_USER = {
-  ldapAccount: "410012409",
-  password: "123456"
-};
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -340,37 +265,8 @@ const Login = () => {
  
 
 
-  const handleLogin = (isAccessible) => {
-    const { ldapAccount, password } = formData;
-    
-    if (!ldapAccount || !password) {
-      alert("請輸入帳號和密碼");
-      return;
-    }
-    
-    if (ldapAccount === TEST_USER.ldapAccount && password === TEST_USER.password) {
-      if (isAccessible) {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        sessionStorage.setItem('userAccount', ldapAccount);
-        navigate('/instruments');
-      } else {
-        const confirmLogin = window.confirm('確定登入一般版本，若您為視障生請選擇「登入無障礙版」？');
-        if (confirmLogin) {
-          sessionStorage.setItem('isLoggedIn', 'true');
-          sessionStorage.setItem('userAccount', ldapAccount);
-          navigate('/instruments');
-        }
-      }
-    } else {
-      alert("帳號或密碼錯誤");
-    }
-  };
+  
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleLogin(false); // 按 Enter 鍵等同於點擊「登入系統」
-    }
-  };
   const StyledButton = styled(BaseButton)(({ theme }) => ({
     height: '48px',
     padding: '12px',
@@ -395,53 +291,12 @@ const Login = () => {
     }
   }));
 
-  // 在 return 部分修改按鈕的使用方式
-  <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-    <StyledButton 
-      fullWidth 
-      onClick={() => handleLogin(false)}
-    >
-      一般版本
-      <span className="dot"></span>
-    </StyledButton>
-    <StyledButton 
-      fullWidth 
-      className="outlined"
-      onClick={() => handleLogin(true)}
-    >
-      無障礙版
-      <span className="dot"></span>
-    </StyledButton>
-  </Box>
-
-  const handleConfirm = () => {
-    sessionStorage.setItem('isLoggedIn', 'true');
-    sessionStorage.setItem('userAccount', formData.ldapAccount);
-    setOpenDialog(false);
-    navigate('/instruments');
-  };
+  
 
   return (
     <BackgroundAnimation>
       <FloatingCircles>
-        <span>
-          <button onClick={() => handleButtonClick('/elderly-support')}>老人助養</button>
-        </span>
-        <span>
-          <button onClick={() => handleButtonClick('/elderly-protection')}>老人防護</button>
-        </span>
-        <span>
-          <button onClick={() => handleButtonClick('/elderly-search')}>老人協尋</button>
-        </span>
-        <span>
-          <button onClick={() => handleButtonClick('/elderly-rescue')}>老人救援</button>
-        </span>
-        <span>
-          <button onClick={() => handleButtonClick('/elderly-service')}>老人服務</button>
-        </span>
-        <span>
-          <button onClick={() => handleButtonClick('/volunteer')}>社會志工</button>
-        </span>
+       
       </FloatingCircles>
       <LoginContainer>
         <LoginBox>
@@ -484,9 +339,9 @@ const Login = () => {
             <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
               <StyledButton 
                 fullWidth
-                onClick={() => handleButtonClick('/about')}
+                onClick={() => handleButtonClick('/homepage')}
               >
-               關於本會
+               進入首頁
                 <span className="dot"></span>
               </StyledButton>
               <StyledButton 
@@ -528,7 +383,6 @@ const Login = () => {
           </FormContainer>
         </LoginBox>
       </LoginContainer>
-      {/* ... 其他原有內容 ... */}
     </BackgroundAnimation>
   );
 };

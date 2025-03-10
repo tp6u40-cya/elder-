@@ -8,7 +8,7 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import SecurityIcon from '@mui/icons-material/Security';
 import SearchIcon from '@mui/icons-material/Search';
 import HelpIcon from '@mui/icons-material/Help';
-import SupportIcon from '@mui/icons-material/Support';
+import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -19,13 +19,8 @@ const drawerWidth = 240;
 
 // 修改導航項目配置
 const menuItems = [
+  { text: '回到首頁', icon: <HomeIcon />, path: '/homepage' },
   { text: '關於本會', icon: <InfoIcon />, path: '/about' },
-  { text: '老人助養', icon: <VolunteerActivismIcon />, path: '/elderly-support' },
-  { text: '老人防護', icon: <SecurityIcon />, path: '/elderly-protection' },
-  { text: '老人協尋', icon: <SearchIcon />, path: '/elderly-search' },
-  { text: '老人救援', icon: <HelpIcon />, path: '/elderly-rescue' },
-  { text: '老人服務', icon: <SupportIcon />, path: '/elderly-service' },
-  { text: '社會志工', icon: <PeopleIcon />, path: '/volunteer' },
   { text: '聯絡本會', icon: <ContactsIcon />, path: '/contact' },
   { text: '社會捐款', icon: <MonetizationOnIcon />, path: '/donation' },
   { 
@@ -100,7 +95,7 @@ const MainLayout = ({ children }) => {
               variant="h6" 
               noWrap 
               component="div"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/homepage')}
               sx={{ 
                 fontWeight: 'bold',
                 fontSize: '1.5rem',

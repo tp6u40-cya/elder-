@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Button, Grid } from '@mui/material';
+import { Chart } from 'react-google-charts';
 import { styled } from '@mui/material/styles';
 import MainLayout from '../components/Layout/MainLayout';
 import { ScrollContainer } from '../styles/globalStyles';
@@ -128,13 +129,67 @@ const DonationInfo = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1)
 }));
 
+const generateDonationData = () => {
+  const donationData = [
+    { id: 1, name: '王小明', amount: 15000, date: '2024-01-15' },
+    { id: 2, name: '仁愛醫療集團', amount: 50000, date: '2024-01-10' },
+    { id: 3, name: '陳美玲', amount: 8000, date: '2024-01-05' },
+    { id: 4, name: '永續發展基金會', amount: 100000, date: '2024-01-01' },
+    { id: 5, name: '張大華', amount: 20000, date: '2023-12-28' },
+    { id: 6, name: '誠信企業股份有限公司', amount: 80000, date: '2023-12-25' },
+    { id: 7, name: '李志明', amount: 12000, date: '2023-12-20' },
+    { id: 8, name: '慈善文教基金會', amount: 60000, date: '2023-12-15' },
+    { id: 9, name: '吳美珠', amount: 5000, date: '2023-12-10' },
+    { id: 10, name: '大愛科技有限公司', amount: 30000, date: '2023-12-05' },
+    { id: 11, name: '林建國', amount: 25000, date: '2023-12-01' },
+    { id: 12, name: '和平醫療財團', amount: 150000, date: '2023-11-28' },
+    { id: 13, name: '黃小芳', amount: 10000, date: '2023-11-25' },
+    { id: 14, name: '福祉關懷協會', amount: 45000, date: '2023-11-20' },
+    { id: 15, name: '謝明德', amount: 18000, date: '2023-11-15' },
+    { id: 16, name: '博愛慈善基金會', amount: 120000, date: '2023-11-10' },
+    { id: 17, name: '劉家豪', amount: 7000, date: '2023-11-05' },
+    { id: 18, name: '信實工業股份有限公司', amount: 90000, date: '2023-11-01' },
+    { id: 19, name: '周淑華', amount: 13000, date: '2023-10-28' },
+    { id: 20, name: '仁心醫療基金會', amount: 200000, date: '2023-10-25' },
+    { id: 21, name: '楊志豪', amount: 16000, date: '2023-10-20' },
+    { id: 22, name: '永續關懷協會', amount: 70000, date: '2023-10-15' },
+    { id: 23, name: '蔡美玲', amount: 9000, date: '2023-10-10' },
+    { id: 24, name: '大同慈善基金會', amount: 180000, date: '2023-10-05' },
+    { id: 25, name: '鄭建華', amount: 22000, date: '2023-10-01' }
+  ];
+  return donationData;
+};
+
 const Donation = () => {
   const navigate = useNavigate();
+  const [displayAmount, setDisplayAmount] = useState(1);
+  const totalAmount = generateDonationData().reduce((sum, item) => sum + item.amount, 0);
 
-  const handleDownload = () => {
-    // 這裡添加下載表格的邏輯
-    console.log('下載表格');
-  };
+  useEffect(() => {
+    const duration = 3000; // 3秒
+    const startTime = performance.now();
+    const startValue = 1;
+    const endValue = totalAmount;
+
+    const updateNumber = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+      
+      // 使用 easeOutQuad 緩動函數讓動畫更自然
+      const easeProgress = 1 - (1 - progress) * (1 - progress);
+      const currentValue = Math.floor(startValue + (endValue - startValue) * easeProgress);
+      
+      setDisplayAmount(currentValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(updateNumber);
+      }
+    };
+
+    requestAnimationFrame(updateNumber);
+  }, [totalAmount]);
+
+
 
   return (
     <MainLayout>
@@ -152,14 +207,83 @@ const Donation = () => {
               height: '100%',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexDirection: 'column'
             }}
           >
-           
+            <Typography variant="h4" component="h1" sx={{
+              color: 'var(--primary)',
+              fontWeight: 'bold',
+              marginBottom: 4
+            }}>
+              社會捐款
+            </Typography>
           </Box>
         </HeroBanner>
 
         <Container maxWidth="lg" sx={{ mb: 8, mt: 12 }}>
+          <Grid container spacing={4} justifyContent="center" sx={{ mb: 6 }}>
+            <Grid item xs={12} md={10}>
+              <ContentCard>
+                <Typography variant="h5" sx={{
+                  color: 'var(--primary)',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  marginBottom: 2
+                }}>
+                  捐款資金使用分配
+                </Typography>
+                <Typography variant="h6" sx={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  marginBottom: 4
+                }}>
+                  目前總捐款金額：NT$ {displayAmount.toLocaleString()}
+                </Typography>
+                <Chart
+                  width={'100%'}
+                  height={'400px'}
+                  chartType="PieChart"
+                  loader={<div>Loading Chart...</div>}
+                  data={(() => {
+                    const totalAmount = generateDonationData().reduce((sum, item) => sum + item.amount, 0);
+                    return [
+                      ['用途', '金額'],
+                      ['老人照護服務', totalAmount * 0.375], // 37.5%
+                      ['急難救助', totalAmount * 0.233], // 23.3%
+                      ['社區服務計畫', totalAmount * 0.167], // 16.7%
+                      ['教育培訓', totalAmount * 0.125], // 12.5%
+                      ['行政管理', totalAmount * 0.1], // 10%
+                    ];
+                  })()} 
+                  options={{
+                    backgroundColor: 'transparent',
+                    legend: {
+                      textStyle: { color: '#fff' },
+                      position: 'bottom',
+                      alignment: 'center'
+                    },
+                    tooltip: { 
+                      trigger: 'focus',
+                      showColorCode: true,
+                      text: 'value',
+                      textStyle: { color: '#000' },
+                      format: 'NT$ #,###'
+                    },
+                    slices: {
+                      0: { color: '#81D8D0' },
+                      1: { color: '#E6C786' },
+                      2: { color: '#97A5C0' },
+                      3: { color: '#DEA592' },
+                      4: { color: '#E2C6C4' }
+                    },
+                    chartArea: { width: '100%', height: '80%' }
+                  }}
+                />
+              </ContentCard>
+            </Grid>
+          </Grid>
+
           <Typography variant="h4" component="h1" gutterBottom sx={{
             color: 'var(--primary)',
             fontWeight: 'bold',
@@ -256,7 +380,10 @@ const Donation = () => {
             </Grid>
           </Grid>
         </Container>
-        <Box sx={{ mt: 8 }}>
+        <Box sx={{
+           mt: 8, 
+           width: "100%",       // 設定寬度 100%
+             }}>
           <Footer />
         </Box>
       </ScrollContainer>

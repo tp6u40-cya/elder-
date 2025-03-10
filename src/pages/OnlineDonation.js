@@ -342,7 +342,10 @@ const OnlineDonation = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        <Box sx={{ mt: 8 }}>
+        <Box sx={{
+           mt: 8, 
+           width: "100%",       // 設定寬度 100%
+             }}>
           <Footer />
         </Box>
       </ScrollContainer>

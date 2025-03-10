@@ -76,20 +76,57 @@ export const BaseContainer = styled(Container)(({ theme }) => ({
   minHeight: '100vh',
   backgroundColor: '#111418',
   color: '#fff',
+  padding: '20px',
+  [theme.breakpoints.down('sm')]: {
+    padding: '10px',
+    '& h1': {
+      fontSize: '1.8rem',
+    },
+    '& h2': {
+      fontSize: '1.5rem',
+    },
+    '& p': {
+      fontSize: '1rem',
+    }
+  },
+  [theme.breakpoints.down('md')]: {
+    '& .MuiGrid-container': {
+      flexDirection: 'column',
+      '& .MuiGrid-item': {
+        width: '100%',
+        maxWidth: '100%',
+        flexBasis: '100%',
+        marginBottom: '20px'
+      }
+    }
+  }
 }));
 
 // 添加滾動容器（用於其他需要滾動條的頁面）
 export const ScrollContainer = styled(Box)(({ theme }) => ({
-  position: 'absolute',
+  position: 'fixed',
   top: 0,
   left: 0,
-  width: '100vw',
-  height: '100vh',
+  width: '100%',
+  height: '100%',
   backgroundColor: '#1a1f25',
   color: '#fff',
   overflowY: 'auto',
+  overflowX: 'hidden',
+  padding: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  },
+  '& .MuiContainer-root': {
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(1),
+    }
+  },
   '&::-webkit-scrollbar': {
-    width: '10px'
+    width: '8px',
+    [theme.breakpoints.down('sm')]: {
+      width: '4px'
+    }
   },
   '&::-webkit-scrollbar-track': {
     background: '#1a1f25'

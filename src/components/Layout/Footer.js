@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ const FooterWrapper = styled(Box)(({ theme }) => ({
   padding: theme.spacing(6, 0),
   marginTop: theme.spacing(8),
   position: 'relative',
+  width: '100%',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -19,6 +20,16 @@ const FooterWrapper = styled(Box)(({ theme }) => ({
     background: 'linear-gradient(45deg, rgba(120, 255, 206, 0.16) 0%, rgba(0,0,0,0) 100%)',
     pointerEvents: 'none'
   }
+}));
+
+const FooterContent = styled(Box)(({ theme }) => ({
+  width: '100%', 
+  display: 'flex',
+  justifyContent: 'center'
+}));
+const FooterInner = styled(Box)(({ theme }) => ({
+  maxWidth: '1200px', // **設定最大內容寬度**
+  width: '100%', // **讓內容區域能夠自適應寬度**
 }));
 
 const FooterText = styled(Typography)(({ theme }) => ({
@@ -38,7 +49,8 @@ const FooterLink = styled(Link)(({ theme }) => ({
 const Footer = () => {
   return (
     <FooterWrapper>
-      <Container maxWidth="lg">
+      <FooterContent>
+      <FooterInner>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
             <Typography variant="h6" sx={{ color: '#fff', mb: 2, textAlign: 'center' }}>
@@ -73,12 +85,13 @@ const Footer = () => {
           </Grid>
         </Grid>
         <Box sx={{ mt: 6, textAlign: 'center' }}>
-        <FooterText>76.7.20北市社四字第33240號</FooterText>
+          <FooterText>76.7.20北市社四字第33240號</FooterText>
           <FooterText>
             © 財團法人台北市老人基金會 版權所有
           </FooterText>
         </Box>
-      </Container>
+        </FooterInner>
+      </FooterContent>
     </FooterWrapper>
   );
 };

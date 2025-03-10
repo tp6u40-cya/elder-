@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';  // 添加 useState 導入
+import { useEffect, useState } from 'react';  
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
@@ -47,7 +47,7 @@ const HomeContainer = styled(BaseContainer)({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  background: '#4a535c',  // 改為純色
+  background: '#4a535c',  
   position: 'relative',
   overflow: 'hidden',
   maxWidth: 'none !important'
@@ -68,7 +68,7 @@ const PageTransition = styled(Box)(({ isLeaving }) => ({
   left: 0,
   width: '100%',
   height: '100%',
-  background: '#111418',  // 改為與登入頁面相同的背景色
+  background: '#111418',  
   transform: isLeaving ? 'translateY(0)' : 'translateY(100%)',
   transition: 'transform 1.2s ease-in-out',
   zIndex: 1000
@@ -82,7 +82,7 @@ const Home = () => {
     const timer = setTimeout(() => {
       setIsLeaving(true);
       setTimeout(() => {
-        navigate('/dashboard'); // 將 /login 改為 /dashboard
+        navigate('/dashboard'); 
       }, 1200);
     }, 1800);
 
